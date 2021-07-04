@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Title | fastpages</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Title" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://jonathanpro.github.io/myaiblog/2021/07/04/huggingface_bi_class_pytorch.html" />
+<meta property="og:url" content="https://jonathanpro.github.io/myaiblog/2021/07/04/huggingface_bi_class_pytorch.html" />
+<meta property="og:site_name" content="fastpages" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"An easy to use blogging platform with support for Jupyter Notebooks.","url":"https://jonathanpro.github.io/myaiblog/2021/07/04/huggingface_bi_class_pytorch.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://jonathanpro.github.io/myaiblog/2021/07/04/huggingface_bi_class_pytorch.html"},"headline":"Title","dateModified":"2021-07-04T00:00:00-05:00","datePublished":"2021-07-04T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/myaiblog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jonathanpro.github.io/myaiblog/feed.xml" title="fastpages" /><link rel="shortcut icon" type="image/x-icon" href="/myaiblog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/myaiblog/">fastpages</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/myaiblog/about/">About Me</a><a class="page-link" href="/myaiblog/search/">Search</a><a class="page-link" href="/myaiblog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Title</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-07-04T00:00:00-05:00" itemprop="datePublished">
+        Jul 4, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/Jonathanpro/myaiblog/tree/master/_notebooks/2021-07-04-huggingface_bi_class_pytorch.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/myaiblog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/Jonathanpro/myaiblog/master?filepath=_notebooks%2F2021-07-04-huggingface_bi_class_pytorch.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/myaiblog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/Jonathanpro/myaiblog/blob/master/_notebooks/2021-07-04-huggingface_bi_class_pytorch.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/myaiblog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-07-04-huggingface_bi_class_pytorch.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://colab.research.google.com/github/Jonathanpro/myaiblog/blob/master/_notebooks/2021-07-04-huggingface_bi_class_pytorch.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting transformers
+  Downloading https://files.pythonhosted.org/packages/d5/43/cfe4ee779bbd6a678ac6a97c5a5cdeb03c35f9eaebbb9720b036680f9a2d/transformers-4.6.1-py3-none-any.whl (2.2MB)
+     |████████████████████████████████| 2.3MB 7.4MB/s 
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from transformers) (20.9)
+Requirement already satisfied: numpy&gt;=1.17 in /usr/local/lib/python3.7/dist-packages (from transformers) (1.19.5)
+Collecting tokenizers&lt;0.11,&gt;=0.10.1
+  Downloading https://files.pythonhosted.org/packages/d4/e2/df3543e8ffdab68f5acc73f613de9c2b155ac47f162e725dcac87c521c11/tokenizers-0.10.3-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (3.3MB)
+     |████████████████████████████████| 3.3MB 51.2MB/s 
+Requirement already satisfied: importlib-metadata; python_version &lt; &#34;3.8&#34; in /usr/local/lib/python3.7/dist-packages (from transformers) (4.0.1)
+Collecting sacremoses
+  Downloading https://files.pythonhosted.org/packages/75/ee/67241dc87f266093c533a2d4d3d69438e57d7a90abb216fa076e7d475d4a/sacremoses-0.0.45-py3-none-any.whl (895kB)
+     |████████████████████████████████| 901kB 45.3MB/s 
+Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from transformers) (3.0.12)
+Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.7/dist-packages (from transformers) (4.41.1)
+Collecting huggingface-hub==0.0.8
+  Downloading https://files.pythonhosted.org/packages/a1/88/7b1e45720ecf59c6c6737ff332f41c955963090a18e72acbcbeac6b25e86/huggingface_hub-0.0.8-py3-none-any.whl
+Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from transformers) (2.23.0)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.7/dist-packages (from transformers) (2019.12.20)
+Requirement already satisfied: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging-&gt;transformers) (2.4.7)
+Requirement already satisfied: typing-extensions&gt;=3.6.4; python_version &lt; &#34;3.8&#34; in /usr/local/lib/python3.7/dist-packages (from importlib-metadata; python_version &lt; &#34;3.8&#34;-&gt;transformers) (3.7.4.3)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata; python_version &lt; &#34;3.8&#34;-&gt;transformers) (3.4.1)
+Requirement already satisfied: click in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers) (7.1.2)
+Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers) (1.15.0)
+Requirement already satisfied: joblib in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers) (1.0.1)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (3.0.4)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (1.24.3)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (2020.12.5)
+Installing collected packages: tokenizers, sacremoses, huggingface-hub, transformers
+Successfully installed huggingface-hub-0.0.8 sacremoses-0.0.45 tokenizers-0.10.3 transformers-4.6.1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">ai</span><span class="o">.</span><span class="n">stanford</span><span class="o">.</span><span class="n">edu</span><span class="o">/~</span><span class="n">amaas</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">sentiment</span><span class="o">/</span><span class="n">aclImdb_v1</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="err">!</span><span class="n">tar</span> <span class="o">-</span><span class="n">xf</span> <span class="n">aclImdb_v1</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>--2021-06-09 09:26:12--  http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
+Resolving ai.stanford.edu (ai.stanford.edu)... 171.64.68.10
+Connecting to ai.stanford.edu (ai.stanford.edu)|171.64.68.10|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 84125825 (80M) [application/x-gzip]
+Saving to: ‘aclImdb_v1.tar.gz’
+
+aclImdb_v1.tar.gz   100%[===================&gt;]  80.23M  17.1MB/s    in 4.2s    
+
+2021-06-09 09:26:16 (19.1 MB/s) - ‘aclImdb_v1.tar.gz’ saved [84125825/84125825]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">ls</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>aclImdb  aclImdb_v1.tar.gz  sample_data
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">def</span> <span class="nf">read_imdb_split</span><span class="p">(</span><span class="n">split_dir</span><span class="p">):</span>
+    <span class="n">split_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">split_dir</span><span class="p">)</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">label_dir</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;neg&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">text_file</span> <span class="ow">in</span> <span class="p">(</span><span class="n">split_dir</span><span class="o">/</span><span class="n">label_dir</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+            <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">label_dir</span> <span class="ow">is</span> <span class="s2">&quot;neg&quot;</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">texts</span><span class="p">,</span> <span class="n">labels</span>
+
+<span class="n">train_texts</span><span class="p">,</span> <span class="n">train_labels</span> <span class="o">=</span> <span class="n">read_imdb_split</span><span class="p">(</span><span class="s1">&#39;aclImdb/train&#39;</span><span class="p">)</span>
+<span class="n">test_texts</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">read_imdb_split</span><span class="p">(</span><span class="s1">&#39;aclImdb/test&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">train_texts</span><span class="p">,</span> <span class="n">val_texts</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_texts</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">train_texts</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>20000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">DistilBertTokenizerFast</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;distilbert-base-uncased&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">train_encodings</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">train_texts</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">val_encodings</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">val_texts</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_encodings</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">test_texts</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">class</span> <span class="nc">IMDbDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encodings</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span> <span class="o">=</span> <span class="n">encodings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">item</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">IMDbDataset</span><span class="p">(</span><span class="n">train_encodings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">IMDbDataset</span><span class="p">(</span><span class="n">val_encodings</span><span class="p">,</span> <span class="n">val_labels</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">IMDbDataset</span><span class="p">(</span><span class="n">test_encodings</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">TrainingArguments</span>
+
+<span class="n">training_args</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./results&#39;</span><span class="p">,</span>          <span class="c1"># output directory</span>
+    <span class="n">num_train_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>              <span class="c1"># total number of training epochs</span>
+    <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># batch size per device during training</span>
+    <span class="n">per_device_eval_batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>   <span class="c1"># batch size for evaluation</span>
+    <span class="n">warmup_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>                <span class="c1"># number of warmup steps for learning rate scheduler</span>
+    <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>               <span class="c1"># strength of weight decay</span>
+    <span class="n">logging_dir</span><span class="o">=</span><span class="s1">&#39;./logs&#39;</span><span class="p">,</span>            <span class="c1"># directory for storing logs</span>
+    <span class="n">logging_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;distilbert-base-uncased&quot;</span><span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>                         <span class="c1"># the instantiated 🤗 Transformers model to be trained</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>                  <span class="c1"># training arguments, defined above</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>         <span class="c1"># training dataset</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_dataset</span>             <span class="c1"># evaluation dataset</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Some weights of the model checkpoint at distilbert-base-uncased were not used when initializing DistilBertForSequenceClassification: [&#39;vocab_layer_norm.weight&#39;, &#39;vocab_projector.bias&#39;, &#39;vocab_transform.weight&#39;, &#39;vocab_transform.bias&#39;, &#39;vocab_projector.weight&#39;, &#39;vocab_layer_norm.bias&#39;]
+- This IS expected if you are initializing DistilBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing DistilBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: [&#39;pre_classifier.bias&#39;, &#39;pre_classifier.weight&#39;, &#39;classifier.bias&#39;, &#39;classifier.weight&#39;]
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+    <div>
+      
+      <progress value="3750" max="3750" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [3750/3750 52:46, Epoch 3/3]
+    </div>
+    <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>Step</th>
+      <th>Training Loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+      <td>0.684600</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>0.691600</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td>0.691300</td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>0.695900</td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td>0.682900</td>
+    </tr>
+    <tr>
+      <td>60</td>
+      <td>0.676900</td>
+    </tr>
+    <tr>
+      <td>70</td>
+      <td>0.665900</td>
+    </tr>
+    <tr>
+      <td>80</td>
+      <td>0.645700</td>
+    </tr>
+    <tr>
+      <td>90</td>
+      <td>0.602600</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>0.496700</td>
+    </tr>
+    <tr>
+      <td>110</td>
+      <td>0.429800</td>
+    </tr>
+    <tr>
+      <td>120</td>
+      <td>0.340100</td>
+    </tr>
+    <tr>
+      <td>130</td>
+      <td>0.327300</td>
+    </tr>
+    <tr>
+      <td>140</td>
+      <td>0.306200</td>
+    </tr>
+    <tr>
+      <td>150</td>
+      <td>0.333500</td>
+    </tr>
+    <tr>
+      <td>160</td>
+      <td>0.259100</td>
+    </tr>
+    <tr>
+      <td>170</td>
+      <td>0.254000</td>
+    </tr>
+    <tr>
+      <td>180</td>
+      <td>0.438300</td>
+    </tr>
+    <tr>
+      <td>190</td>
+      <td>0.333900</td>
+    </tr>
+    <tr>
+      <td>200</td>
+      <td>0.362500</td>
+    </tr>
+    <tr>
+      <td>210</td>
+      <td>0.312800</td>
+    </tr>
+    <tr>
+      <td>220</td>
+      <td>0.398800</td>
+    </tr>
+    <tr>
+      <td>230</td>
+      <td>0.377000</td>
+    </tr>
+    <tr>
+      <td>240</td>
+      <td>0.326000</td>
+    </tr>
+    <tr>
+      <td>250</td>
+      <td>0.243200</td>
+    </tr>
+    <tr>
+      <td>260</td>
+      <td>0.327100</td>
+    </tr>
+    <tr>
+      <td>270</td>
+      <td>0.290200</td>
+    </tr>
+    <tr>
+      <td>280</td>
+      <td>0.304400</td>
+    </tr>
+    <tr>
+      <td>290</td>
+      <td>0.197300</td>
+    </tr>
+    <tr>
+      <td>300</td>
+      <td>0.319200</td>
+    </tr>
+    <tr>
+      <td>310</td>
+      <td>0.365600</td>
+    </tr>
+    <tr>
+      <td>320</td>
+      <td>0.310700</td>
+    </tr>
+    <tr>
+      <td>330</td>
+      <td>0.279300</td>
+    </tr>
+    <tr>
+      <td>340</td>
+      <td>0.452500</td>
+    </tr>
+    <tr>
+      <td>350</td>
+      <td>0.289900</td>
+    </tr>
+    <tr>
+      <td>360</td>
+      <td>0.341700</td>
+    </tr>
+    <tr>
+      <td>370</td>
+      <td>0.397100</td>
+    </tr>
+    <tr>
+      <td>380</td>
+      <td>0.327000</td>
+    </tr>
+    <tr>
+      <td>390</td>
+      <td>0.196400</td>
+    </tr>
+    <tr>
+      <td>400</td>
+      <td>0.171100</td>
+    </tr>
+    <tr>
+      <td>410</td>
+      <td>0.362800</td>
+    </tr>
+    <tr>
+      <td>420</td>
+      <td>0.247400</td>
+    </tr>
+    <tr>
+      <td>430</td>
+      <td>0.251200</td>
+    </tr>
+    <tr>
+      <td>440</td>
+      <td>0.288100</td>
+    </tr>
+    <tr>
+      <td>450</td>
+      <td>0.359200</td>
+    </tr>
+    <tr>
+      <td>460</td>
+      <td>0.308200</td>
+    </tr>
+    <tr>
+      <td>470</td>
+      <td>0.253800</td>
+    </tr>
+    <tr>
+      <td>480</td>
+      <td>0.234300</td>
+    </tr>
+    <tr>
+      <td>490</td>
+      <td>0.196900</td>
+    </tr>
+    <tr>
+      <td>500</td>
+      <td>0.358900</td>
+    </tr>
+    <tr>
+      <td>510</td>
+      <td>0.288100</td>
+    </tr>
+    <tr>
+      <td>520</td>
+      <td>0.400000</td>
+    </tr>
+    <tr>
+      <td>530</td>
+      <td>0.294000</td>
+    </tr>
+    <tr>
+      <td>540</td>
+      <td>0.356800</td>
+    </tr>
+    <tr>
+      <td>550</td>
+      <td>0.301600</td>
+    </tr>
+    <tr>
+      <td>560</td>
+      <td>0.339900</td>
+    </tr>
+    <tr>
+      <td>570</td>
+      <td>0.263500</td>
+    </tr>
+    <tr>
+      <td>580</td>
+      <td>0.270900</td>
+    </tr>
+    <tr>
+      <td>590</td>
+      <td>0.320400</td>
+    </tr>
+    <tr>
+      <td>600</td>
+      <td>0.294500</td>
+    </tr>
+    <tr>
+      <td>610</td>
+      <td>0.323100</td>
+    </tr>
+    <tr>
+      <td>620</td>
+      <td>0.234900</td>
+    </tr>
+    <tr>
+      <td>630</td>
+      <td>0.267100</td>
+    </tr>
+    <tr>
+      <td>640</td>
+      <td>0.328700</td>
+    </tr>
+    <tr>
+      <td>650</td>
+      <td>0.313700</td>
+    </tr>
+    <tr>
+      <td>660</td>
+      <td>0.224200</td>
+    </tr>
+    <tr>
+      <td>670</td>
+      <td>0.284300</td>
+    </tr>
+    <tr>
+      <td>680</td>
+      <td>0.210900</td>
+    </tr>
+    <tr>
+      <td>690</td>
+      <td>0.404200</td>
+    </tr>
+    <tr>
+      <td>700</td>
+      <td>0.301900</td>
+    </tr>
+    <tr>
+      <td>710</td>
+      <td>0.219300</td>
+    </tr>
+    <tr>
+      <td>720</td>
+      <td>0.167300</td>
+    </tr>
+    <tr>
+      <td>730</td>
+      <td>0.514900</td>
+    </tr>
+    <tr>
+      <td>740</td>
+      <td>0.236200</td>
+    </tr>
+    <tr>
+      <td>750</td>
+      <td>0.241200</td>
+    </tr>
+    <tr>
+      <td>760</td>
+      <td>0.344900</td>
+    </tr>
+    <tr>
+      <td>770</td>
+      <td>0.217600</td>
+    </tr>
+    <tr>
+      <td>780</td>
+      <td>0.327000</td>
+    </tr>
+    <tr>
+      <td>790</td>
+      <td>0.206400</td>
+    </tr>
+    <tr>
+      <td>800</td>
+      <td>0.250900</td>
+    </tr>
+    <tr>
+      <td>810</td>
+      <td>0.289100</td>
+    </tr>
+    <tr>
+      <td>820</td>
+      <td>0.344400</td>
+    </tr>
+    <tr>
+      <td>830</td>
+      <td>0.221300</td>
+    </tr>
+    <tr>
+      <td>840</td>
+      <td>0.238800</td>
+    </tr>
+    <tr>
+      <td>850</td>
+      <td>0.321800</td>
+    </tr>
+    <tr>
+      <td>860</td>
+      <td>0.191700</td>
+    </tr>
+    <tr>
+      <td>870</td>
+      <td>0.266200</td>
+    </tr>
+    <tr>
+      <td>880</td>
+      <td>0.211200</td>
+    </tr>
+    <tr>
+      <td>890</td>
+      <td>0.338400</td>
+    </tr>
+    <tr>
+      <td>900</td>
+      <td>0.201400</td>
+    </tr>
+    <tr>
+      <td>910</td>
+      <td>0.305000</td>
+    </tr>
+    <tr>
+      <td>920</td>
+      <td>0.352600</td>
+    </tr>
+    <tr>
+      <td>930</td>
+      <td>0.352000</td>
+    </tr>
+    <tr>
+      <td>940</td>
+      <td>0.254900</td>
+    </tr>
+    <tr>
+      <td>950</td>
+      <td>0.301100</td>
+    </tr>
+    <tr>
+      <td>960</td>
+      <td>0.256400</td>
+    </tr>
+    <tr>
+      <td>970</td>
+      <td>0.230800</td>
+    </tr>
+    <tr>
+      <td>980</td>
+      <td>0.281700</td>
+    </tr>
+    <tr>
+      <td>990</td>
+      <td>0.147900</td>
+    </tr>
+    <tr>
+      <td>1000</td>
+      <td>0.184400</td>
+    </tr>
+    <tr>
+      <td>1010</td>
+      <td>0.267400</td>
+    </tr>
+    <tr>
+      <td>1020</td>
+      <td>0.343800</td>
+    </tr>
+    <tr>
+      <td>1030</td>
+      <td>0.271500</td>
+    </tr>
+    <tr>
+      <td>1040</td>
+      <td>0.280900</td>
+    </tr>
+    <tr>
+      <td>1050</td>
+      <td>0.334700</td>
+    </tr>
+    <tr>
+      <td>1060</td>
+      <td>0.242200</td>
+    </tr>
+    <tr>
+      <td>1070</td>
+      <td>0.307200</td>
+    </tr>
+    <tr>
+      <td>1080</td>
+      <td>0.162500</td>
+    </tr>
+    <tr>
+      <td>1090</td>
+      <td>0.329900</td>
+    </tr>
+    <tr>
+      <td>1100</td>
+      <td>0.193200</td>
+    </tr>
+    <tr>
+      <td>1110</td>
+      <td>0.130000</td>
+    </tr>
+    <tr>
+      <td>1120</td>
+      <td>0.278000</td>
+    </tr>
+    <tr>
+      <td>1130</td>
+      <td>0.208800</td>
+    </tr>
+    <tr>
+      <td>1140</td>
+      <td>0.283600</td>
+    </tr>
+    <tr>
+      <td>1150</td>
+      <td>0.233200</td>
+    </tr>
+    <tr>
+      <td>1160</td>
+      <td>0.289100</td>
+    </tr>
+    <tr>
+      <td>1170</td>
+      <td>0.236900</td>
+    </tr>
+    <tr>
+      <td>1180</td>
+      <td>0.226100</td>
+    </tr>
+    <tr>
+      <td>1190</td>
+      <td>0.325300</td>
+    </tr>
+    <tr>
+      <td>1200</td>
+      <td>0.210300</td>
+    </tr>
+    <tr>
+      <td>1210</td>
+      <td>0.140000</td>
+    </tr>
+    <tr>
+      <td>1220</td>
+      <td>0.170800</td>
+    </tr>
+    <tr>
+      <td>1230</td>
+      <td>0.325700</td>
+    </tr>
+    <tr>
+      <td>1240</td>
+      <td>0.507100</td>
+    </tr>
+    <tr>
+      <td>1250</td>
+      <td>0.293300</td>
+    </tr>
+    <tr>
+      <td>1260</td>
+      <td>0.157200</td>
+    </tr>
+    <tr>
+      <td>1270</td>
+      <td>0.156000</td>
+    </tr>
+    <tr>
+      <td>1280</td>
+      <td>0.176100</td>
+    </tr>
+    <tr>
+      <td>1290</td>
+      <td>0.226800</td>
+    </tr>
+    <tr>
+      <td>1300</td>
+      <td>0.217500</td>
+    </tr>
+    <tr>
+      <td>1310</td>
+      <td>0.216000</td>
+    </tr>
+    <tr>
+      <td>1320</td>
+      <td>0.061400</td>
+    </tr>
+    <tr>
+      <td>1330</td>
+      <td>0.237400</td>
+    </tr>
+    <tr>
+      <td>1340</td>
+      <td>0.204700</td>
+    </tr>
+    <tr>
+      <td>1350</td>
+      <td>0.173500</td>
+    </tr>
+    <tr>
+      <td>1360</td>
+      <td>0.135200</td>
+    </tr>
+    <tr>
+      <td>1370</td>
+      <td>0.149600</td>
+    </tr>
+    <tr>
+      <td>1380</td>
+      <td>0.241000</td>
+    </tr>
+    <tr>
+      <td>1390</td>
+      <td>0.083100</td>
+    </tr>
+    <tr>
+      <td>1400</td>
+      <td>0.218800</td>
+    </tr>
+    <tr>
+      <td>1410</td>
+      <td>0.164600</td>
+    </tr>
+    <tr>
+      <td>1420</td>
+      <td>0.182200</td>
+    </tr>
+    <tr>
+      <td>1430</td>
+      <td>0.178200</td>
+    </tr>
+    <tr>
+      <td>1440</td>
+      <td>0.162000</td>
+    </tr>
+    <tr>
+      <td>1450</td>
+      <td>0.187100</td>
+    </tr>
+    <tr>
+      <td>1460</td>
+      <td>0.162400</td>
+    </tr>
+    <tr>
+      <td>1470</td>
+      <td>0.143100</td>
+    </tr>
+    <tr>
+      <td>1480</td>
+      <td>0.092100</td>
+    </tr>
+    <tr>
+      <td>1490</td>
+      <td>0.191700</td>
+    </tr>
+    <tr>
+      <td>1500</td>
+      <td>0.166300</td>
+    </tr>
+    <tr>
+      <td>1510</td>
+      <td>0.176500</td>
+    </tr>
+    <tr>
+      <td>1520</td>
+      <td>0.048800</td>
+    </tr>
+    <tr>
+      <td>1530</td>
+      <td>0.200000</td>
+    </tr>
+    <tr>
+      <td>1540</td>
+      <td>0.264300</td>
+    </tr>
+    <tr>
+      <td>1550</td>
+      <td>0.214900</td>
+    </tr>
+    <tr>
+      <td>1560</td>
+      <td>0.213700</td>
+    </tr>
+    <tr>
+      <td>1570</td>
+      <td>0.201900</td>
+    </tr>
+    <tr>
+      <td>1580</td>
+      <td>0.120200</td>
+    </tr>
+    <tr>
+      <td>1590</td>
+      <td>0.153100</td>
+    </tr>
+    <tr>
+      <td>1600</td>
+      <td>0.119000</td>
+    </tr>
+    <tr>
+      <td>1610</td>
+      <td>0.064000</td>
+    </tr>
+    <tr>
+      <td>1620</td>
+      <td>0.202000</td>
+    </tr>
+    <tr>
+      <td>1630</td>
+      <td>0.200400</td>
+    </tr>
+    <tr>
+      <td>1640</td>
+      <td>0.183400</td>
+    </tr>
+    <tr>
+      <td>1650</td>
+      <td>0.138800</td>
+    </tr>
+    <tr>
+      <td>1660</td>
+      <td>0.184100</td>
+    </tr>
+    <tr>
+      <td>1670</td>
+      <td>0.193900</td>
+    </tr>
+    <tr>
+      <td>1680</td>
+      <td>0.169300</td>
+    </tr>
+    <tr>
+      <td>1690</td>
+      <td>0.248700</td>
+    </tr>
+    <tr>
+      <td>1700</td>
+      <td>0.124800</td>
+    </tr>
+    <tr>
+      <td>1710</td>
+      <td>0.158200</td>
+    </tr>
+    <tr>
+      <td>1720</td>
+      <td>0.162700</td>
+    </tr>
+    <tr>
+      <td>1730</td>
+      <td>0.137700</td>
+    </tr>
+    <tr>
+      <td>1740</td>
+      <td>0.197700</td>
+    </tr>
+    <tr>
+      <td>1750</td>
+      <td>0.277100</td>
+    </tr>
+    <tr>
+      <td>1760</td>
+      <td>0.181900</td>
+    </tr>
+    <tr>
+      <td>1770</td>
+      <td>0.194900</td>
+    </tr>
+    <tr>
+      <td>1780</td>
+      <td>0.091900</td>
+    </tr>
+    <tr>
+      <td>1790</td>
+      <td>0.103100</td>
+    </tr>
+    <tr>
+      <td>1800</td>
+      <td>0.154300</td>
+    </tr>
+    <tr>
+      <td>1810</td>
+      <td>0.205300</td>
+    </tr>
+    <tr>
+      <td>1820</td>
+      <td>0.121500</td>
+    </tr>
+    <tr>
+      <td>1830</td>
+      <td>0.160700</td>
+    </tr>
+    <tr>
+      <td>1840</td>
+      <td>0.115800</td>
+    </tr>
+    <tr>
+      <td>1850</td>
+      <td>0.065800</td>
+    </tr>
+    <tr>
+      <td>1860</td>
+      <td>0.052200</td>
+    </tr>
+    <tr>
+      <td>1870</td>
+      <td>0.160700</td>
+    </tr>
+    <tr>
+      <td>1880</td>
+      <td>0.344100</td>
+    </tr>
+    <tr>
+      <td>1890</td>
+      <td>0.183000</td>
+    </tr>
+    <tr>
+      <td>1900</td>
+      <td>0.160600</td>
+    </tr>
+    <tr>
+      <td>1910</td>
+      <td>0.126300</td>
+    </tr>
+    <tr>
+      <td>1920</td>
+      <td>0.233100</td>
+    </tr>
+    <tr>
+      <td>1930</td>
+      <td>0.178100</td>
+    </tr>
+    <tr>
+      <td>1940</td>
+      <td>0.165200</td>
+    </tr>
+    <tr>
+      <td>1950</td>
+      <td>0.211100</td>
+    </tr>
+    <tr>
+      <td>1960</td>
+      <td>0.174300</td>
+    </tr>
+    <tr>
+      <td>1970</td>
+      <td>0.135600</td>
+    </tr>
+    <tr>
+      <td>1980</td>
+      <td>0.096800</td>
+    </tr>
+    <tr>
+      <td>1990</td>
+      <td>0.206400</td>
+    </tr>
+    <tr>
+      <td>2000</td>
+      <td>0.176700</td>
+    </tr>
+    <tr>
+      <td>2010</td>
+      <td>0.201100</td>
+    </tr>
+    <tr>
+      <td>2020</td>
+      <td>0.128200</td>
+    </tr>
+    <tr>
+      <td>2030</td>
+      <td>0.110000</td>
+    </tr>
+    <tr>
+      <td>2040</td>
+      <td>0.147100</td>
+    </tr>
+    <tr>
+      <td>2050</td>
+      <td>0.188600</td>
+    </tr>
+    <tr>
+      <td>2060</td>
+      <td>0.144200</td>
+    </tr>
+    <tr>
+      <td>2070</td>
+      <td>0.096700</td>
+    </tr>
+    <tr>
+      <td>2080</td>
+      <td>0.223200</td>
+    </tr>
+    <tr>
+      <td>2090</td>
+      <td>0.196800</td>
+    </tr>
+    <tr>
+      <td>2100</td>
+      <td>0.143400</td>
+    </tr>
+    <tr>
+      <td>2110</td>
+      <td>0.208100</td>
+    </tr>
+    <tr>
+      <td>2120</td>
+      <td>0.143000</td>
+    </tr>
+    <tr>
+      <td>2130</td>
+      <td>0.301800</td>
+    </tr>
+    <tr>
+      <td>2140</td>
+      <td>0.055300</td>
+    </tr>
+    <tr>
+      <td>2150</td>
+      <td>0.091900</td>
+    </tr>
+    <tr>
+      <td>2160</td>
+      <td>0.085400</td>
+    </tr>
+    <tr>
+      <td>2170</td>
+      <td>0.136600</td>
+    </tr>
+    <tr>
+      <td>2180</td>
+      <td>0.136500</td>
+    </tr>
+    <tr>
+      <td>2190</td>
+      <td>0.142700</td>
+    </tr>
+    <tr>
+      <td>2200</td>
+      <td>0.148400</td>
+    </tr>
+    <tr>
+      <td>2210</td>
+      <td>0.234800</td>
+    </tr>
+    <tr>
+      <td>2220</td>
+      <td>0.149900</td>
+    </tr>
+    <tr>
+      <td>2230</td>
+      <td>0.176500</td>
+    </tr>
+    <tr>
+      <td>2240</td>
+      <td>0.117600</td>
+    </tr>
+    <tr>
+      <td>2250</td>
+      <td>0.153700</td>
+    </tr>
+    <tr>
+      <td>2260</td>
+      <td>0.213200</td>
+    </tr>
+    <tr>
+      <td>2270</td>
+      <td>0.174500</td>
+    </tr>
+    <tr>
+      <td>2280</td>
+      <td>0.108400</td>
+    </tr>
+    <tr>
+      <td>2290</td>
+      <td>0.231100</td>
+    </tr>
+    <tr>
+      <td>2300</td>
+      <td>0.143000</td>
+    </tr>
+    <tr>
+      <td>2310</td>
+      <td>0.187700</td>
+    </tr>
+    <tr>
+      <td>2320</td>
+      <td>0.123700</td>
+    </tr>
+    <tr>
+      <td>2330</td>
+      <td>0.228600</td>
+    </tr>
+    <tr>
+      <td>2340</td>
+      <td>0.221700</td>
+    </tr>
+    <tr>
+      <td>2350</td>
+      <td>0.176000</td>
+    </tr>
+    <tr>
+      <td>2360</td>
+      <td>0.072700</td>
+    </tr>
+    <tr>
+      <td>2370</td>
+      <td>0.122600</td>
+    </tr>
+    <tr>
+      <td>2380</td>
+      <td>0.149600</td>
+    </tr>
+    <tr>
+      <td>2390</td>
+      <td>0.068600</td>
+    </tr>
+    <tr>
+      <td>2400</td>
+      <td>0.228700</td>
+    </tr>
+    <tr>
+      <td>2410</td>
+      <td>0.222100</td>
+    </tr>
+    <tr>
+      <td>2420</td>
+      <td>0.176600</td>
+    </tr>
+    <tr>
+      <td>2430</td>
+      <td>0.082100</td>
+    </tr>
+    <tr>
+      <td>2440</td>
+      <td>0.128300</td>
+    </tr>
+    <tr>
+      <td>2450</td>
+      <td>0.135700</td>
+    </tr>
+    <tr>
+      <td>2460</td>
+      <td>0.253200</td>
+    </tr>
+    <tr>
+      <td>2470</td>
+      <td>0.101000</td>
+    </tr>
+    <tr>
+      <td>2480</td>
+      <td>0.106300</td>
+    </tr>
+    <tr>
+      <td>2490</td>
+      <td>0.136600</td>
+    </tr>
+    <tr>
+      <td>2500</td>
+      <td>0.221200</td>
+    </tr>
+    <tr>
+      <td>2510</td>
+      <td>0.051900</td>
+    </tr>
+    <tr>
+      <td>2520</td>
+      <td>0.089800</td>
+    </tr>
+    <tr>
+      <td>2530</td>
+      <td>0.006800</td>
+    </tr>
+    <tr>
+      <td>2540</td>
+      <td>0.038600</td>
+    </tr>
+    <tr>
+      <td>2550</td>
+      <td>0.079200</td>
+    </tr>
+    <tr>
+      <td>2560</td>
+      <td>0.096100</td>
+    </tr>
+    <tr>
+      <td>2570</td>
+      <td>0.072300</td>
+    </tr>
+    <tr>
+      <td>2580</td>
+      <td>0.061700</td>
+    </tr>
+    <tr>
+      <td>2590</td>
+      <td>0.048900</td>
+    </tr>
+    <tr>
+      <td>2600</td>
+      <td>0.137700</td>
+    </tr>
+    <tr>
+      <td>2610</td>
+      <td>0.042400</td>
+    </tr>
+    <tr>
+      <td>2620</td>
+      <td>0.066000</td>
+    </tr>
+    <tr>
+      <td>2630</td>
+      <td>0.099800</td>
+    </tr>
+    <tr>
+      <td>2640</td>
+      <td>0.020200</td>
+    </tr>
+    <tr>
+      <td>2650</td>
+      <td>0.088900</td>
+    </tr>
+    <tr>
+      <td>2660</td>
+      <td>0.026900</td>
+    </tr>
+    <tr>
+      <td>2670</td>
+      <td>0.016700</td>
+    </tr>
+    <tr>
+      <td>2680</td>
+      <td>0.046000</td>
+    </tr>
+    <tr>
+      <td>2690</td>
+      <td>0.007000</td>
+    </tr>
+    <tr>
+      <td>2700</td>
+      <td>0.041000</td>
+    </tr>
+    <tr>
+      <td>2710</td>
+      <td>0.040800</td>
+    </tr>
+    <tr>
+      <td>2720</td>
+      <td>0.009800</td>
+    </tr>
+    <tr>
+      <td>2730</td>
+      <td>0.129800</td>
+    </tr>
+    <tr>
+      <td>2740</td>
+      <td>0.062100</td>
+    </tr>
+    <tr>
+      <td>2750</td>
+      <td>0.051000</td>
+    </tr>
+    <tr>
+      <td>2760</td>
+      <td>0.078500</td>
+    </tr>
+    <tr>
+      <td>2770</td>
+      <td>0.154900</td>
+    </tr>
+    <tr>
+      <td>2780</td>
+      <td>0.108700</td>
+    </tr>
+    <tr>
+      <td>2790</td>
+      <td>0.019400</td>
+    </tr>
+    <tr>
+      <td>2800</td>
+      <td>0.010500</td>
+    </tr>
+    <tr>
+      <td>2810</td>
+      <td>0.086800</td>
+    </tr>
+    <tr>
+      <td>2820</td>
+      <td>0.087700</td>
+    </tr>
+    <tr>
+      <td>2830</td>
+      <td>0.003200</td>
+    </tr>
+    <tr>
+      <td>2840</td>
+      <td>0.120600</td>
+    </tr>
+    <tr>
+      <td>2850</td>
+      <td>0.093000</td>
+    </tr>
+    <tr>
+      <td>2860</td>
+      <td>0.089100</td>
+    </tr>
+    <tr>
+      <td>2870</td>
+      <td>0.076800</td>
+    </tr>
+    <tr>
+      <td>2880</td>
+      <td>0.044200</td>
+    </tr>
+    <tr>
+      <td>2890</td>
+      <td>0.035600</td>
+    </tr>
+    <tr>
+      <td>2900</td>
+      <td>0.093000</td>
+    </tr>
+    <tr>
+      <td>2910</td>
+      <td>0.074100</td>
+    </tr>
+    <tr>
+      <td>2920</td>
+      <td>0.119100</td>
+    </tr>
+    <tr>
+      <td>2930</td>
+      <td>0.034900</td>
+    </tr>
+    <tr>
+      <td>2940</td>
+      <td>0.052400</td>
+    </tr>
+    <tr>
+      <td>2950</td>
+      <td>0.061000</td>
+    </tr>
+    <tr>
+      <td>2960</td>
+      <td>0.113700</td>
+    </tr>
+    <tr>
+      <td>2970</td>
+      <td>0.063500</td>
+    </tr>
+    <tr>
+      <td>2980</td>
+      <td>0.142200</td>
+    </tr>
+    <tr>
+      <td>2990</td>
+      <td>0.109800</td>
+    </tr>
+    <tr>
+      <td>3000</td>
+      <td>0.004200</td>
+    </tr>
+    <tr>
+      <td>3010</td>
+      <td>0.050300</td>
+    </tr>
+    <tr>
+      <td>3020</td>
+      <td>0.081100</td>
+    </tr>
+    <tr>
+      <td>3030</td>
+      <td>0.077100</td>
+    </tr>
+    <tr>
+      <td>3040</td>
+      <td>0.128600</td>
+    </tr>
+    <tr>
+      <td>3050</td>
+      <td>0.053000</td>
+    </tr>
+    <tr>
+      <td>3060</td>
+      <td>0.058900</td>
+    </tr>
+    <tr>
+      <td>3070</td>
+      <td>0.059500</td>
+    </tr>
+    <tr>
+      <td>3080</td>
+      <td>0.103800</td>
+    </tr>
+    <tr>
+      <td>3090</td>
+      <td>0.038100</td>
+    </tr>
+    <tr>
+      <td>3100</td>
+      <td>0.108300</td>
+    </tr>
+    <tr>
+      <td>3110</td>
+      <td>0.047000</td>
+    </tr>
+    <tr>
+      <td>3120</td>
+      <td>0.121300</td>
+    </tr>
+    <tr>
+      <td>3130</td>
+      <td>0.056100</td>
+    </tr>
+    <tr>
+      <td>3140</td>
+      <td>0.024500</td>
+    </tr>
+    <tr>
+      <td>3150</td>
+      <td>0.059300</td>
+    </tr>
+    <tr>
+      <td>3160</td>
+      <td>0.042900</td>
+    </tr>
+    <tr>
+      <td>3170</td>
+      <td>0.043700</td>
+    </tr>
+    <tr>
+      <td>3180</td>
+      <td>0.082900</td>
+    </tr>
+    <tr>
+      <td>3190</td>
+      <td>0.113600</td>
+    </tr>
+    <tr>
+      <td>3200</td>
+      <td>0.082800</td>
+    </tr>
+    <tr>
+      <td>3210</td>
+      <td>0.061400</td>
+    </tr>
+    <tr>
+      <td>3220</td>
+      <td>0.059800</td>
+    </tr>
+    <tr>
+      <td>3230</td>
+      <td>0.073900</td>
+    </tr>
+    <tr>
+      <td>3240</td>
+      <td>0.110200</td>
+    </tr>
+    <tr>
+      <td>3250</td>
+      <td>0.101800</td>
+    </tr>
+    <tr>
+      <td>3260</td>
+      <td>0.061700</td>
+    </tr>
+    <tr>
+      <td>3270</td>
+      <td>0.068800</td>
+    </tr>
+    <tr>
+      <td>3280</td>
+      <td>0.117900</td>
+    </tr>
+    <tr>
+      <td>3290</td>
+      <td>0.068800</td>
+    </tr>
+    <tr>
+      <td>3300</td>
+      <td>0.044800</td>
+    </tr>
+    <tr>
+      <td>3310</td>
+      <td>0.046700</td>
+    </tr>
+    <tr>
+      <td>3320</td>
+      <td>0.053500</td>
+    </tr>
+    <tr>
+      <td>3330</td>
+      <td>0.081100</td>
+    </tr>
+    <tr>
+      <td>3340</td>
+      <td>0.120800</td>
+    </tr>
+    <tr>
+      <td>3350</td>
+      <td>0.077300</td>
+    </tr>
+    <tr>
+      <td>3360</td>
+      <td>0.006200</td>
+    </tr>
+    <tr>
+      <td>3370</td>
+      <td>0.073700</td>
+    </tr>
+    <tr>
+      <td>3380</td>
+      <td>0.058300</td>
+    </tr>
+    <tr>
+      <td>3390</td>
+      <td>0.073400</td>
+    </tr>
+    <tr>
+      <td>3400</td>
+      <td>0.042600</td>
+    </tr>
+    <tr>
+      <td>3410</td>
+      <td>0.069600</td>
+    </tr>
+    <tr>
+      <td>3420</td>
+      <td>0.052400</td>
+    </tr>
+    <tr>
+      <td>3430</td>
+      <td>0.081100</td>
+    </tr>
+    <tr>
+      <td>3440</td>
+      <td>0.085000</td>
+    </tr>
+    <tr>
+      <td>3450</td>
+      <td>0.012800</td>
+    </tr>
+    <tr>
+      <td>3460</td>
+      <td>0.137500</td>
+    </tr>
+    <tr>
+      <td>3470</td>
+      <td>0.066000</td>
+    </tr>
+    <tr>
+      <td>3480</td>
+      <td>0.159700</td>
+    </tr>
+    <tr>
+      <td>3490</td>
+      <td>0.038100</td>
+    </tr>
+    <tr>
+      <td>3500</td>
+      <td>0.007700</td>
+    </tr>
+    <tr>
+      <td>3510</td>
+      <td>0.091100</td>
+    </tr>
+    <tr>
+      <td>3520</td>
+      <td>0.095400</td>
+    </tr>
+    <tr>
+      <td>3530</td>
+      <td>0.044600</td>
+    </tr>
+    <tr>
+      <td>3540</td>
+      <td>0.104700</td>
+    </tr>
+    <tr>
+      <td>3550</td>
+      <td>0.047300</td>
+    </tr>
+    <tr>
+      <td>3560</td>
+      <td>0.004200</td>
+    </tr>
+    <tr>
+      <td>3570</td>
+      <td>0.029700</td>
+    </tr>
+    <tr>
+      <td>3580</td>
+      <td>0.062100</td>
+    </tr>
+    <tr>
+      <td>3590</td>
+      <td>0.108100</td>
+    </tr>
+    <tr>
+      <td>3600</td>
+      <td>0.114800</td>
+    </tr>
+    <tr>
+      <td>3610</td>
+      <td>0.043000</td>
+    </tr>
+    <tr>
+      <td>3620</td>
+      <td>0.169600</td>
+    </tr>
+    <tr>
+      <td>3630</td>
+      <td>0.002600</td>
+    </tr>
+    <tr>
+      <td>3640</td>
+      <td>0.046200</td>
+    </tr>
+    <tr>
+      <td>3650</td>
+      <td>0.096100</td>
+    </tr>
+    <tr>
+      <td>3660</td>
+      <td>0.056900</td>
+    </tr>
+    <tr>
+      <td>3670</td>
+      <td>0.008400</td>
+    </tr>
+    <tr>
+      <td>3680</td>
+      <td>0.051300</td>
+    </tr>
+    <tr>
+      <td>3690</td>
+      <td>0.044100</td>
+    </tr>
+    <tr>
+      <td>3700</td>
+      <td>0.151900</td>
+    </tr>
+    <tr>
+      <td>3710</td>
+      <td>0.095900</td>
+    </tr>
+    <tr>
+      <td>3720</td>
+      <td>0.078200</td>
+    </tr>
+    <tr>
+      <td>3730</td>
+      <td>0.003900</td>
+    </tr>
+    <tr>
+      <td>3740</td>
+      <td>0.042200</td>
+    </tr>
+    <tr>
+      <td>3750</td>
+      <td>0.046800</td>
+    </tr>
+  </tbody>
+</table><p>
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>TrainOutput(global_step=3750, training_loss=0.18305039387245972, metrics={&#39;train_runtime&#39;: 3167.2396, &#39;train_samples_per_second&#39;: 1.184, &#39;total_flos&#39;: 822743162880000.0, &#39;epoch&#39;: 3.0, &#39;init_mem_cpu_alloc_delta&#39;: 2495520768, &#39;init_mem_gpu_alloc_delta&#39;: 268953088, &#39;init_mem_cpu_peaked_delta&#39;: 0, &#39;init_mem_gpu_peaked_delta&#39;: 0, &#39;train_mem_cpu_alloc_delta&#39;: -84152320, &#39;train_mem_gpu_alloc_delta&#39;: 804118016, &#39;train_mem_cpu_peaked_delta&#39;: 192946176, &#39;train_mem_gpu_peaked_delta&#39;: 6566123008})</pre>
+</div>
+
+</div>
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="k">class</span> <span class="nc">IMDbDataset_pre</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encodings</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span> <span class="o">=</span> <span class="n">encodings</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">item</span>
+    
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">predict_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">trainer</span><span class="o">=</span><span class="n">trainer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">):</span>
+    <span class="n">encodings</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">text</span><span class="p">],</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">IMDbDataset_pre</span><span class="p">(</span><span class="n">encodings</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">predict_text</span><span class="p">(</span><span class="s2">&quot;This movie is fucking shit&quot;</span><span class="p">,</span> <span class="n">trainer</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+    <div>
+      
+      <progress value="2" max="1" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [1/1 00:22]
+    </div>
+    
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">predict_text</span><span class="p">(</span><span class="s2">&quot;This movie is fucking awesome&quot;</span><span class="p">,</span> <span class="n">trainer</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+    <div>
+      
+      <progress value="3" max="1" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [1/1 00:27]
+    </div>
+    
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+&lt;/div&gt;
+ 
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"14c172bf34a34226b525ebd31307903b": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_86e7df1e5c3648c899f8b6352df0e7f4", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_448ad574aca247de95b09d80905cd11f", "IPY_MODEL_c16d506701aa4f268bd2743def83b507"]}}, "86e7df1e5c3648c899f8b6352df0e7f4": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "448ad574aca247de95b09d80905cd11f": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_d0b857723419460d9eeffa7d4dbdf6e6", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 231508, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 231508, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_caca624b56dc4a6c8e87b20ce9d56bad"}}, "c16d506701aa4f268bd2743def83b507": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_90ddcfb7caf74f6ab02ac494b30576a5", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 232k/232k [00:17&lt;00:00, 13.3kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_b3bec647d97d4bb686fdf184e0764571"}}, "d0b857723419460d9eeffa7d4dbdf6e6": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "caca624b56dc4a6c8e87b20ce9d56bad": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "90ddcfb7caf74f6ab02ac494b30576a5": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "b3bec647d97d4bb686fdf184e0764571": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "6105c027c61049e8a983137f5197f5ea": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_bd0cfa3435a949ac9505b72129e35d02", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_7669b5ad53f245fc89075a862eea35e3", "IPY_MODEL_d0db2481dd1748cdaf9117016577f2ce"]}}, "bd0cfa3435a949ac9505b72129e35d02": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "7669b5ad53f245fc89075a862eea35e3": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_53895648280c4d2b9aa87a578795174b", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 466062, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 466062, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_6a2e88040b034fb79befc623e024848c"}}, "d0db2481dd1748cdaf9117016577f2ce": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_0c170860f21e440099ec7672b853eb13", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 466k/466k [00:16&lt;00:00, 28.0kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_2b4c273bfdd14e8bb0353e5289fc20d8"}}, "53895648280c4d2b9aa87a578795174b": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "6a2e88040b034fb79befc623e024848c": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "0c170860f21e440099ec7672b853eb13": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "2b4c273bfdd14e8bb0353e5289fc20d8": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "a99fc80371f341d68bea0e03185fd260": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_70e05f420ef043f6adfc7a6c26082340", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_978a2ad82cc543bfbabccf2aa5f5adef", "IPY_MODEL_59cc81ec36ca4b1eaf465de4c4070d4e"]}}, "70e05f420ef043f6adfc7a6c26082340": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "978a2ad82cc543bfbabccf2aa5f5adef": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_26efe1f88f8c49b390a0cab8e59a0b58", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 28, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 28, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_a461449a83b44192acf7d83352e269c0"}}, "59cc81ec36ca4b1eaf465de4c4070d4e": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_f221c80ffa59491aa85fe71b29a1cc9e", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 28.0/28.0 [00:15&lt;00:00, 1.84B/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_bf14ba5dc7f1424bb761c0e359c8c47d"}}, "26efe1f88f8c49b390a0cab8e59a0b58": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "a461449a83b44192acf7d83352e269c0": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "f221c80ffa59491aa85fe71b29a1cc9e": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "bf14ba5dc7f1424bb761c0e359c8c47d": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "ceffff34329c4556891e8128cd7c80c9": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_9b0a00e0f3174d37b3c87831230a501c", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_1e63b440cbe0467a93f73b70f806e627", "IPY_MODEL_113c78893dc542438e018847e7b76d21"]}}, "9b0a00e0f3174d37b3c87831230a501c": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "1e63b440cbe0467a93f73b70f806e627": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_0a68ce25e5fe42289eabc9f1e1980d13", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 442, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 442, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_877abf3bd0614330b80faf4224c3bfe9"}}, "113c78893dc542438e018847e7b76d21": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_7fa714845ffb4170823272300d63e601", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 442/442 [00:00&lt;00:00, 698B/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_16655ff1a29e42a19cd04e8cc8abd896"}}, "0a68ce25e5fe42289eabc9f1e1980d13": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "877abf3bd0614330b80faf4224c3bfe9": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "7fa714845ffb4170823272300d63e601": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "16655ff1a29e42a19cd04e8cc8abd896": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "1b6d2faecb064abf92b6b1348a239b2d": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_5abd4811a4494ad6923f6296213d6122", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_daefd1597eeb453a8fc4baebe09de856", "IPY_MODEL_ab7165c75f3f434393f19240a8cf3779"]}}, "5abd4811a4494ad6923f6296213d6122": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "daefd1597eeb453a8fc4baebe09de856": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_fb05a707552f4a9e8edf4f7e0fbeecfe", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 267967963, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 267967963, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_645aa142b04e4995b33a3154296357bf"}}, "ab7165c75f3f434393f19240a8cf3779": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_fcd50923d69a4d94b789dc159d4b5388", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 268M/268M [00:05&lt;00:00, 48.3MB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_8a5648509ef54486899a7dd0a227ea9c"}}, "fb05a707552f4a9e8edf4f7e0fbeecfe": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "645aa142b04e4995b33a3154296357bf": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "fcd50923d69a4d94b789dc159d4b5388": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "8a5648509ef54486899a7dd0a227ea9c": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}}
+</script>
+
+</p></div></div></div></div></div></div>
+
+
+  </div><a class="u-url" href="/myaiblog/2021/07/04/huggingface_bi_class_pytorch.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/myaiblog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/myaiblog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/myaiblog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/myaiblog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/myaiblog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
