@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>NLP - Multi Class Classification - Inference | My AI Blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="NLP - Multi Class Classification - Inference" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tutorial for Training a binary class classifier with Huggingface &amp; Pytroch." />
+<meta property="og:description" content="A tutorial for Training a binary class classifier with Huggingface &amp; Pytroch." />
+<link rel="canonical" href="https://jonathanpro.github.io/myaiblog/jupyter/2021/07/06/huggingface_multi_class_pytorch_inference.html" />
+<meta property="og:url" content="https://jonathanpro.github.io/myaiblog/jupyter/2021/07/06/huggingface_multi_class_pytorch_inference.html" />
+<meta property="og:site_name" content="My AI Blog" />
+<meta property="og:image" content="https://jonathanpro.github.io/myaiblog/images/chart-preview.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-06T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A tutorial for Training a binary class classifier with Huggingface &amp; Pytroch.","url":"https://jonathanpro.github.io/myaiblog/jupyter/2021/07/06/huggingface_multi_class_pytorch_inference.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://jonathanpro.github.io/myaiblog/jupyter/2021/07/06/huggingface_multi_class_pytorch_inference.html"},"headline":"NLP - Multi Class Classification - Inference","dateModified":"2021-07-06T00:00:00-05:00","datePublished":"2021-07-06T00:00:00-05:00","image":"https://jonathanpro.github.io/myaiblog/images/chart-preview.png","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/myaiblog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jonathanpro.github.io/myaiblog/feed.xml" title="My AI Blog" /><link rel="shortcut icon" type="image/x-icon" href="/myaiblog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/myaiblog/">My AI Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/myaiblog/about/">About Me</a><a class="page-link" href="/myaiblog/search/">Search</a><a class="page-link" href="/myaiblog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">NLP -  Multi Class Classification - Inference</h1><p class="page-description">A tutorial for Training a binary class classifier with Huggingface & Pytroch.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-07-06T00:00:00-05:00" itemprop="datePublished">
+        Jul 6, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/myaiblog/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/Jonathanpro/myaiblog/tree/master/_notebooks/07-07-2021-huggingface_multi_class_pytorch_inference.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/myaiblog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/Jonathanpro/myaiblog/master?filepath=_notebooks%2F07-07-2021-huggingface_multi_class_pytorch_inference.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/myaiblog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/Jonathanpro/myaiblog/blob/master/_notebooks/07-07-2021-huggingface_multi_class_pytorch_inference.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/myaiblog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/07-07-2021-huggingface_multi_class_pytorch_inference.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://colab.research.google.com/github/Jonathanpro/myaiblog/blob/master/_notebooks/07-07-2021-huggingface_multi_class_pytorch_inference.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">'/content/gdrive'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Mounted at /content/gdrive
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting transformers
+  Downloading https://files.pythonhosted.org/packages/fd/1a/41c644c963249fd7f3836d926afa1e3f1cc234a1c40d80c5f03ad8f6f1b2/transformers-4.8.2-py3-none-any.whl (2.5MB)
+     |████████████████████████████████| 2.5MB 30.5MB/s 
+Collecting sacremoses
+  Downloading https://files.pythonhosted.org/packages/75/ee/67241dc87f266093c533a2d4d3d69438e57d7a90abb216fa076e7d475d4a/sacremoses-0.0.45-py3-none-any.whl (895kB)
+     |████████████████████████████████| 901kB 38.7MB/s 
+Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from transformers) (3.0.12)
+Requirement already satisfied: numpy&gt;=1.17 in /usr/local/lib/python3.7/dist-packages (from transformers) (1.19.5)
+Collecting tokenizers&lt;0.11,&gt;=0.10.1
+  Downloading https://files.pythonhosted.org/packages/d4/e2/df3543e8ffdab68f5acc73f613de9c2b155ac47f162e725dcac87c521c11/tokenizers-0.10.3-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (3.3MB)
+     |████████████████████████████████| 3.3MB 29.5MB/s 
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.7/dist-packages (from transformers) (3.13)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from transformers) (20.9)
+Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.7/dist-packages (from transformers) (4.41.1)
+Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from transformers) (2.23.0)
+Requirement already satisfied: importlib-metadata; python_version &lt; "3.8" in /usr/local/lib/python3.7/dist-packages (from transformers) (4.5.0)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.7/dist-packages (from transformers) (2019.12.20)
+Collecting huggingface-hub==0.0.12
+  Downloading https://files.pythonhosted.org/packages/2f/ee/97e253668fda9b17e968b3f97b2f8e53aa0127e8807d24a547687423fe0b/huggingface_hub-0.0.12-py3-none-any.whl
+Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers) (1.15.0)
+Requirement already satisfied: click in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers) (7.1.2)
+Requirement already satisfied: joblib in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers) (1.0.1)
+Requirement already satisfied: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging-&gt;transformers) (2.4.7)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (1.24.3)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (3.0.4)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (2.10)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests-&gt;transformers) (2021.5.30)
+Requirement already satisfied: typing-extensions&gt;=3.6.4; python_version &lt; "3.8" in /usr/local/lib/python3.7/dist-packages (from importlib-metadata; python_version &lt; "3.8"-&gt;transformers) (3.7.4.3)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata; python_version &lt; "3.8"-&gt;transformers) (3.4.1)
+Installing collected packages: sacremoses, tokenizers, huggingface-hub, transformers
+Successfully installed huggingface-hub-0.0.12 sacremoses-0.0.45 tokenizers-0.10.3 transformers-4.8.2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">transformers</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">DistilBertModel</span><span class="p">,</span> <span class="n">DistilBertTokenizer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span> <span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">archive</span><span class="o">.</span><span class="n">ics</span><span class="o">.</span><span class="n">uci</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">ml</span><span class="o">/</span><span class="n">machine</span><span class="o">-</span><span class="n">learning</span><span class="o">-</span><span class="n">databases</span><span class="o">/</span><span class="mi">00359</span><span class="o">/</span><span class="n">NewsAggregatorDataset</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>--2021-07-07 14:56:53--  https://archive.ics.uci.edu/ml/machine-learning-databases/00359/NewsAggregatorDataset.zip
+Resolving archive.ics.uci.edu (archive.ics.uci.edu)... 128.195.10.252
+Connecting to archive.ics.uci.edu (archive.ics.uci.edu)|128.195.10.252|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 29224203 (28M) [application/x-httpd-php]
+Saving to: ‘NewsAggregatorDataset.zip’
+
+NewsAggregatorDatas 100%[===================&gt;]  27.87M  23.2MB/s    in 1.2s    
+
+2021-07-07 14:56:54 (23.2 MB/s) - ‘NewsAggregatorDataset.zip’ saved [29224203/29224203]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">unzip</span> <span class="n">NewsAggregatorDataset</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Archive:  NewsAggregatorDataset.zip
+  inflating: 2pageSessions.csv       
+   creating: __MACOSX/
+  inflating: __MACOSX/._2pageSessions.csv  
+  inflating: newsCorpora.csv         
+  inflating: __MACOSX/._newsCorpora.csv  
+  inflating: readme.txt              
+  inflating: __MACOSX/._readme.txt   
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'newsCorpora.csv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'ID'</span><span class="p">,</span><span class="s1">'TITLE'</span><span class="p">,</span> <span class="s1">'URL'</span><span class="p">,</span> <span class="s1">'PUBLISHER'</span><span class="p">,</span> <span class="s1">'CATEGORY'</span><span class="p">,</span> <span class="s1">'STORY'</span><span class="p">,</span> <span class="s1">'HOSTNAME'</span><span class="p">,</span> <span class="s1">'TIMESTAMP'</span><span class="p">])</span>
+<span class="c1"># df.head()</span>
+<span class="c1"># # Removing unwanted columns and only leaving title of news and the category which will be the target</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'TITLE'</span><span class="p">,</span><span class="s1">'CATEGORY'</span><span class="p">]]</span>
+<span class="c1"># df.head()</span>
+
+<span class="c1"># # Converting the codes to appropriate categories using a dictionary</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'e'</span><span class="p">:</span><span class="s1">'Entertainment'</span><span class="p">,</span>
+    <span class="s1">'b'</span><span class="p">:</span><span class="s1">'Business'</span><span class="p">,</span>
+    <span class="s1">'t'</span><span class="p">:</span><span class="s1">'Science'</span><span class="p">,</span>
+    <span class="s1">'m'</span><span class="p">:</span><span class="s1">'Health'</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">update_cat</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">my_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">'CATEGORY'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'CATEGORY'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">update_cat</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">encode_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">encode_cat</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">encode_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">encode_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">encode_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">encode_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">'ENCODE_CAT'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'CATEGORY'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">encode_cat</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'CATEGORY'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">df_mapping</span><span class="o">=</span><span class="n">df</span><span class="p">[[</span><span class="s1">'CATEGORY'</span><span class="p">,</span> <span class="s1">'ENCODE_CAT'</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df_mapping</span> <span class="o">=</span> <span class="n">df_mapping</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">id2label</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df_mapping</span><span class="o">.</span><span class="n">CATEGORY</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">df_mapping</span><span class="o">.</span><span class="n">ENCODE_CAT</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'distilbert-base-cased'</span><span class="p">,</span> <span class="n">id2label</span><span class="o">=</span><span class="n">id2label</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="k">class</span> <span class="nc">train_data_class</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_len</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataframe</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="o">=</span> <span class="n">max_len</span>
+        
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">TITLE</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">title</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode_plus</span><span class="p">(</span>
+            <span class="n">title</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">max_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_len</span><span class="p">,</span>
+            <span class="n">pad_to_max_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_token_type_ids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">'input_ids'</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">'attention_mask'</span><span class="p">]</span>
+        <span class="n">inputs</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ENCODE_CAT</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">'token_type_ids'</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">inputs</span>
+        <span class="sd">"""</span>
+<span class="sd">        return {</span>
+<span class="sd">            'ids': torch.tensor(ids, dtype=torch.long),</span>
+<span class="sd">            'mask': torch.tensor(mask, dtype=torch.long),</span>
+<span class="sd">            'label': torch.tensor(self.data.ENCODE_CAT[index], dtype=torch.long)</span>
+<span class="sd">        } </span>
+<span class="sd">        """</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">len</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">train_dataset</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">training_set</span> <span class="o">=</span> <span class="n">train_data_class</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">MAX_LEN</span><span class="p">)</span>
+<span class="n">testing_set</span> <span class="o">=</span> <span class="n">train_data_class</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">MAX_LEN</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">,</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">TrainingArguments</span>
+
+<span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="n">pred</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">label_ids</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">predictions</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">precision_recall_fscore_support</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'accuracy'</span><span class="p">:</span> <span class="n">acc</span><span class="p">,</span>
+        <span class="s1">'f1'</span><span class="p">:</span> <span class="n">f1</span><span class="p">,</span>
+        <span class="s1">'precision'</span><span class="p">:</span> <span class="n">precision</span><span class="p">,</span>
+        <span class="s1">'recall'</span><span class="p">:</span> <span class="n">recall</span>
+    <span class="p">}</span>
+
+
+<span class="n">training_args</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s1">'./results'</span><span class="p">,</span>          <span class="c1"># output directory</span>
+    <span class="n">num_train_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>              <span class="c1"># total number of training epochs</span>
+    <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># batch size per device during training</span>
+    <span class="n">per_device_eval_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="mi">64</span><span class="p">,</span>   <span class="c1"># batch size for evaluation</span>
+    <span class="n">warmup_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>                <span class="c1"># number of warmup steps for learning rate scheduler</span>
+    <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>               <span class="c1"># strength of weight decay</span>
+    <span class="n">logging_dir</span><span class="o">=</span><span class="s1">'./logs'</span><span class="p">,</span>            <span class="c1"># directory for storing logs</span>
+    <span class="n">logging_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="p">)</span> <span class="c1"># save_strategy='steps', save_steps=5000 </span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">"/content/gdrive/MyDrive/MC_03_09_07_05_21.bin"</span><span class="p">,</span> <span class="n">local_files_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">id2label</span><span class="o">=</span><span class="n">id2label</span><span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>                         <span class="c1"># the instantiated 🤗 Transformers model to be trained</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>                  <span class="c1"># training arguments, defined above</span>
+    <span class="c1"># compute_metrics=compute_metrics,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">training_set</span><span class="p">,</span>         <span class="c1"># training dataset</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">testing_set</span>             <span class="c1"># evaluation dataset</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="k">class</span> <span class="nc">data_prediction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encodings</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">encodings</span> <span class="o">=</span> <span class="n">encodings</span>
+
+	<span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+		<span class="n">item</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+		<span class="k">return</span> <span class="n">item</span>
+
+	<span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="p">[</span><span class="s1">'input_ids'</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">predict_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">trainer</span><span class="o">=</span><span class="n">trainer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">):</span>
+    <span class="n">encodings</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">text</span><span class="p">],</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">data_prediction</span><span class="p">(</span><span class="n">encodings</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">id2label</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">predictions</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sample News headline from Google news South Africa</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">predict_text</span><span class="p">(</span><span class="s2">"Relieved' Aspen CEO laments impact of US vaccine factory problems on SA "</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>***** Running Prediction *****
+  Num examples = 1
+  Batch size = 64
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+    <div>
+      
+      <progress value="1" max="1" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [1/1 : &lt; :]
+    </div>
+    
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'Health'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Go to <a href="https://news.google.com/topstories?hl=en-US&amp;gl=US&amp;ceid=US:en">https://news.google.com/topstories?hl=en-US&amp;gl=US&amp;ceid=US:en</a> and select an english speaking region(e.g. UK, US, New Zealand, AUS, Namibia, etc.)
+Check the left categories and copy a newline into the 'predict_text' function</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"98486b8f8cbd4de7b05892189279f065": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_6cba9fa2780e441ab8b25cd008ac45d3", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_6f38dcb01b0946be9797a297f85b69fc", "IPY_MODEL_c90fd7acad7541648c6fc491f2c1e3c1"]}}, "9844c23879f041b586a9f2685095b3a2": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_4b19829a870e44bebe4d85a30e28f33e", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_0dac43119dd2482692df0bf6474255be", "IPY_MODEL_25912acf44e34e98a7a05e6e9c3eeebf"]}}, "417e2880f319408a9c806e25092d656a": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_bc0b17e7a0ad4a16a6c588ce71e8ec4c", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_2c857a73cf1e40f8bfda4ad1860974d7", "IPY_MODEL_dd3698b9597c496ba6253e56577a1aed"]}}}
+</script>
+
+
+
+  </div><a class="u-url" href="/myaiblog/jupyter/2021/07/06/huggingface_multi_class_pytorch_inference.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/myaiblog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/myaiblog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/myaiblog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An AI bLog that contains a lot of Jupyter Notebooks about Deep Learning.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/myaiblog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/myaiblog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
